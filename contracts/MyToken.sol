@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MyToken is ERC20Permit, Ownable {
-  constructor() ERC20("ClearDemo Token", "CLRD") ERC20Permit("ClearDemo Token") {
+  constructor() ERC20("ClearDemo Token", "CLRD") ERC20Permit("ClearDemo Token") Ownable(msg.sender) {
     _mint(msg.sender, 1_000_000 * 10 ** decimals());
   }
 
