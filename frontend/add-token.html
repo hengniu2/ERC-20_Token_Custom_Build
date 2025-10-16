@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Add Token to MetaMask</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>body{font-family:ui-sans-serif,system-ui;padding:24px}button{padding:10px 16px;border-radius:10px;border:1px solid #ddd;cursor:pointer}</style>
+  </head>
+  <body>
+    <h1>Add your token to MetaMask</h1>
+    <p>Network: Sepolia</p>
+    <button id="btn">Add Token</button>
+
+    <script>
+      async function addToMetaMask() {
+        if (!(window.ethereum && window.ethereum.request)) {
+          alert("MetaMask not detected. Install MetaMask and refresh.");
+          return;
+        }
+
+        // ▶ 1) Your deployed token address (Sepolia)
+        const tokenAddress = "0xYourTokenAddress";
+        // ▶ 2) Symbol and decimals must match your contract (decimals usually 18)
+        const tokenSymbol = "CLRD";
+        const tokenDecimals = 18;
+        // ▶ 3) HTTPS URL to your logo image (see section 2 below)
+        const tokenImage = "https://your-domain.com/token-logo.png";
+
+        // (optional) ensure Sepolia is selected
+        try {
+          await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: "0xaa36a7" }], // 11155111 (Sepolia) in hex
+          });
+        } catch(e) {
+          if (e && e.code === 4902) {
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [{
+                chainId: "0xaa36a7",
+                chainName: "Sepolia",
+                nativeCurrency: { name: "Sepolia ETH", symbol: "ETH", decimals: 18 },
+                rpcUrls: ["https://sepolia.infura.io/v3/"],
+                blockExplorerUrls: ["https://sepolia.etherscan.io/"]
+              }],
+            });
+          }
+        }
+
+        try {
+          const wasAdded = await window.ethereum.request({
+            method: "wallet_watchAsset",
+            params: {
+              type: "ERC20",
+              options: {
+                address: tokenAddress,
+                symbol: tokenSymbol,   // up to 5 chars looks nice in MetaMask
+                decimals: tokenDecimals,
+                image: tokenImage      // your logo URL
+              },
+            },
+          });
+          alert(wasAdded ? "Token added ✅" : "User canceled");
+        } catch (err) {
+          console.error(err);
+          alert("Failed to add token. See console for details.");
+        }
+      }
+
+      document.getElementById("btn").addEventListener("click", addToMetaMask);
+    </script>
+  </body>
+</html>
