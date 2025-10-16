@@ -5,21 +5,24 @@
   "scripts": {
     "compile": "hardhat compile",
     "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
-    "transfer:sepolia": "hardhat run scripts/transfer.ts --network sepolia --",
-    "listen": "ts-node-dev listener/index.ts",
+    "transfer:sepolia": "cross-env HARDHAT_NETWORK=sepolia ts-node --files scripts/transfer.ts",
+    "listen": "tsx watch listener/index.ts",
+    "whoami": "hardhat run scripts/whoami.ts --network sepolia",
     "test": "hardhat test"
   },
   "devDependencies": {
-    "hardhat": "2.22.6",
     "@nomicfoundation/hardhat-toolbox": "5.0.0",
-    "typescript": "5.4.5",
-    "ts-node": "10.9.2",
-    "ts-node-dev": "2.0.0",
     "@types/node": "20.11.30",
-    "dotenv": "16.4.5"
+    "dotenv": "16.4.5",
+    "hardhat": "2.22.6",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "2.0.0",
+    "typescript": "5.4.5"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.2"
+    "@openzeppelin/contracts": "^5.0.2",
+    "cross-env": "^10.1.0",
+    "tsx": "^4.20.6"
   },
   "type": "module"
 }

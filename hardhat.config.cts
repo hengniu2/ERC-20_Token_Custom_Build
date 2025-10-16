@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 // import { ethers } from 'ethers';
 dotenv.config();
 
-const { SEPOLIA_RPC_URL, PRIVATE_KEY, ETHEREUM_API_KEY } = process.env;
+const { SEPOLIA_RPC_URL, PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env;
 
 const config: HardhatUserConfig = {
   solidity: '0.8.24',
@@ -16,8 +16,11 @@ const config: HardhatUserConfig = {
     },
   },
   etherscan: {
-    apiKey: ETHEREUM_API_KEY || "",
+    apiKey: ETHERSCAN_API_KEY || "",
   },
+  sourcify: {
+    enabled: true,
+  }
 };
 
 export default config;
