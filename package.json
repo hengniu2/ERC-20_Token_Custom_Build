@@ -8,6 +8,7 @@
     "transfer:sepolia": "cross-env HARDHAT_NETWORK=sepolia ts-node --files scripts/transfer.ts",
     "listen": "tsx watch listener/index.ts",
     "whoami": "hardhat run scripts/whoami.ts --network sepolia",
+    "server:frontend": "http-server frontend -p 8081 -c-1",
     "test": "hardhat test"
   },
   "devDependencies": {
@@ -22,6 +23,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.2",
     "cross-env": "^10.1.0",
+    "http-server": "^14.1.1",
     "tsx": "^4.20.6"
   },
   "type": "module"
